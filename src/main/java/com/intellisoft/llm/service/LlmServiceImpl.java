@@ -5,6 +5,7 @@ import com.intellisoft.llm.gpt.request.GptRequestDto;
 import com.intellisoft.llm.gpt.request.ChatGptRequest;
 import com.intellisoft.llm.gpt.response.GptResponseDto;
 import com.intellisoft.llm.util.AppConstants;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -15,7 +16,11 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class LlmServiceImpl implements LlmService {
     private static RestTemplate restTemplate = new RestTemplate();
-    
+
+    @Autowired
+    private String apiKey;
+
+
     public GptResponseDto askChatGpt(GptRequestDto gptRequestDto) {
 
         return this.getResponse(
@@ -31,7 +36,7 @@ public class LlmServiceImpl implements LlmService {
     public HttpEntity<ChatGptRequest> buildHttpEntity(ChatGptRequest chatRequest) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType(AppConstants.MEDIA_TYPE));
-        headers.add(AppConstants.AUTHORIZATION, AppConstants.BEARER + AppConstants.API_KEY);
+        headers.add(AppConstants.AUTHORIZATION, AppConstants.BEARER + apiKey);
         return new HttpEntity<>(chatRequest, headers);
     }
 

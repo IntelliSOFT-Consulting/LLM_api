@@ -54,6 +54,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers("/api/authentication/**").permitAll()
                         .requestMatchers("/api/llm/askChatGpt").permitAll()
+                        .requestMatchers("/api/llm/askBard").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManagement -> sessionManagement

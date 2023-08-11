@@ -27,7 +27,6 @@ public class LlmController {
     public ResponseEntity<GptResponseDto> askGpt(@RequestBody GptRequestDto gptRequestDto) {
         return ResponseEntity.status(HttpStatus.OK).body(llmService.askChatGpt(gptRequestDto));
     }
-
 }
 
 

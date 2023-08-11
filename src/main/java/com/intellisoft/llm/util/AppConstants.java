@@ -1,12 +1,14 @@
 package com.intellisoft.llm.util;
 
+import org.springframework.context.annotation.Bean;
+
 public class AppConstants {
 
     /* CHAT GPT */
 
     public static final String AUTHORIZATION = "Authorization";
     public static final String BEARER = "Bearer ";
-    public static final String API_KEY = "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";
+    public static final String API_KEY = System.getenv("openai.api-key");
     public static final String MODEL = "gpt-3.5-turbo";
     public static final Integer MAX_TOKEN = 300;
     public static final Double TEMPERATURE = 0.0;

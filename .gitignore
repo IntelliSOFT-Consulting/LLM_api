@@ -46,3 +46,6 @@ release.properties
 
 # Build output
 build/
+
+
+application.properties
