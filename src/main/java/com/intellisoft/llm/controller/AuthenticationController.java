@@ -2,6 +2,7 @@ package com.intellisoft.llm.controller;
 
 
 import com.intellisoft.llm.authentication.LoginRequestDto;
+import com.intellisoft.llm.authentication.ProfileUpdateRequestDto;
 import com.intellisoft.llm.authentication.RegisterRequestDto;
 import com.intellisoft.llm.model.User;
 import com.intellisoft.llm.service.AuthenticationService;
@@ -32,4 +33,15 @@ public class AuthenticationController {
     public ResponseEntity<User> register(@RequestBody RegisterRequestDto registerRequestDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(authenticationService.register(registerRequestDto));
     }
+
+    @PostMapping(path = "/reset", consumes = ALL_VALUE)
+    public ResponseEntity<String> reset(@RequestParam String username, @RequestParam String newPassword) {
+        return ResponseEntity.status(HttpStatus.OK).body(authenticationService.reset(username, newPassword));
+    }
+
+    @PostMapping(path = "/updateProfile", consumes = ALL_VALUE)
+    public ResponseEntity<User> updateProfile(@RequestBody ProfileUpdateRequestDto profileUpdateRequestDto) {
+        return ResponseEntity.status(HttpStatus.OK).body(authenticationService.updateProfile(profileUpdateRequestDto));
+    }
+
 }
