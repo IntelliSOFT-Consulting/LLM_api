@@ -23,10 +23,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class AuthenticationServiceImpl implements AuthenticationService {
+public class AuthenticationServiceImpl implements com.intellisoft.llm.service.AuthenticationService {
 
     private final UserRepository userRepository;
-    private final JwtService jwtService;
+    private final com.intellisoft.llm.service.JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
@@ -35,7 +35,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Autowired
     public AuthenticationServiceImpl(
             UserRepository userRepository,
-            JwtService jwtService,
+            com.intellisoft.llm.service.JwtService jwtService,
             PasswordEncoder passwordEncoder,
             AuthenticationManager authenticationManager,
             UserDetailsService userDetailsService,
@@ -118,7 +118,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public User updateProfile(ProfileUpdateRequestDto profileUpdateRequestDto) {
-        Optional<User> user = userRepository.findByPhoneNumber(profileUpdateRequestDto.getPhoneNumber());
+        Optional<User> user = userRepository.findByContact(profileUpdateRequestDto.getPhoneNumber());
 
         if (user.isEmpty()){
             throw new UsernameNotFoundException("User not found");

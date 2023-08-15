@@ -55,6 +55,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/authentication/**").permitAll()
                         .requestMatchers("/api/llm/askChatGpt").permitAll()
                         .requestMatchers("/api/llm/askBard").permitAll()
+                        .requestMatchers("/api/llm/updateMetaData/{phoneNumber}").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManagement -> sessionManagement
