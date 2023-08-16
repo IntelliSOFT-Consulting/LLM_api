@@ -16,4 +16,8 @@ public class AppConstants {
     public static final String MEDIA_TYPE = "application/json; charset=UTF-8";
     public static final String URL = "https://api.openai.com/v1/chat/completions";
 
+
+    /*Google Bard*/
+    public static final String BARD_URL = "http://127.0.0.1:2000/askBard";
+
 }

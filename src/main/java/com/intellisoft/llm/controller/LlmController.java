@@ -1,5 +1,7 @@
 package com.intellisoft.llm.controller;
 
+import com.intellisoft.llm.bard.BardApiResponseDto;
+import com.intellisoft.llm.bard.BardRequestDto;
 import com.intellisoft.llm.gpt.request.GptRequestDto;
 import com.intellisoft.llm.gpt.request.UpdateMetaDataDto;
 import com.intellisoft.llm.gpt.response.GptResponseDto;
@@ -30,6 +32,11 @@ public class LlmController {
         return ResponseEntity.status(HttpStatus.OK).body(llmService.askChatGpt(gptRequestDto));
     }
 
+    @PostMapping(path = "/askGoogle", consumes = ALL_VALUE)
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<BardApiResponseDto> askBard(@RequestBody BardRequestDto bardRequestDto) {
+        return ResponseEntity.status(HttpStatus.OK).body(llmService.askGoogleBard(bardRequestDto));
+    }
 
     @Operation(summary = "Update NDC MetdaData")
     @PutMapping(path = "/updateMetaData/{phoneNumber}", consumes = ALL_VALUE)

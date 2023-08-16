@@ -1,6 +1,8 @@
 package com.intellisoft.llm.service;
 
 
+import com.intellisoft.llm.bard.BardApiResponseDto;
+import com.intellisoft.llm.bard.BardRequestDto;
 import com.intellisoft.llm.gpt.request.UpdateMetaDataDto;
 import com.intellisoft.llm.gpt.request.GptRequestDto;
 import com.intellisoft.llm.gpt.request.ChatGptRequest;
@@ -10,6 +12,7 @@ import com.intellisoft.llm.model.User;
 import com.intellisoft.llm.repository.NcdMetaDataRepository;
 import com.intellisoft.llm.service.summary.SummaryService;
 import com.intellisoft.llm.util.AppConstants;
+import com.intellisoft.llm.util.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -79,7 +82,7 @@ public class LlmServiceImpl implements LlmService {
         Optional<NcdMetaData> ncdMetaData = ncdMetaDataRepository.findMostRecentByPhoneNumberAndSubject(phoneNumber, updateMetaDataDto.getSearchSubject());
 
         if (ncdMetaData.isEmpty()) {
-            throw new UsernameNotFoundException("User meta-data not found");
+            throw new ResourceNotFoundException("Metadata info not found with phone number: " + phoneNumber);
         }
 
         NcdMetaData foundMetaData = ncdMetaData.get();
@@ -144,6 +147,19 @@ public class LlmServiceImpl implements LlmService {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Invalid duration format: " + durationString);
         }
+    }
+
+    @Override
+    public BardApiResponseDto askGoogleBard(BardRequestDto bardRequestDto) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<BardRequestDto> request = new HttpEntity<>(bardRequestDto, headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<BardApiResponseDto> response = restTemplate.postForEntity(AppConstants.BARD_URL, request, BardApiResponseDto.class);
+
+        return response.getBody();
     }
 
 
