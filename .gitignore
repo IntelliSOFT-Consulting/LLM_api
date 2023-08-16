@@ -47,5 +47,5 @@ release.properties
 # Build output
 build/
 
-
-application.properties
+.DS_Store
+logs/

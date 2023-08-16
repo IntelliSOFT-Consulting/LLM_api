@@ -23,6 +23,9 @@ public class RegisterRequestDto {
     private Integer age;
     private String gender;
     private String phoneNumber;
+    private String location;
+    private String specificLocation;
+    private String fullName;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date signUpDate;
     private String heardAppFrom;

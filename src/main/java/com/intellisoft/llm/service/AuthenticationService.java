@@ -7,7 +7,7 @@ import com.intellisoft.llm.authentication.RegisterRequestDto;
 import com.intellisoft.llm.model.User;
 
 public interface AuthenticationService {
-    String login(LoginRequestDto loginRequestDto);
+    User login(LoginRequestDto loginRequestDto);
 
     User register(RegisterRequestDto registerRequestDto);
 

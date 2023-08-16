@@ -53,6 +53,15 @@ public class User implements UserDetails {
     @Temporal(TemporalType.TIMESTAMP)
     Date signUpDate;
 
+    @Column(columnDefinition = "TEXT")
+    private String location;
+
+    @Column(columnDefinition = "TEXT")
+    private String specificLocation;
+
+    @Column(columnDefinition = "TEXT")
+    private String fullName;
+
     String token;
 
     @JsonIgnoreProperties("users")

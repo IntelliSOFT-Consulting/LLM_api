@@ -25,7 +25,7 @@ public class AuthenticationController {
     AuthenticationService authenticationService;
 
     @PostMapping(path = "/login", consumes = ALL_VALUE)
-    public ResponseEntity<String> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
+    public ResponseEntity<User> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
         return ResponseEntity.status(HttpStatus.OK).body(authenticationService.login(loginRequestDto));
     }
 

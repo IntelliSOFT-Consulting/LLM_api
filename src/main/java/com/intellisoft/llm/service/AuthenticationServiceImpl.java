@@ -50,7 +50,7 @@ public class AuthenticationServiceImpl implements com.intellisoft.llm.service.Au
     }
 
     @Override
-    public String login(LoginRequestDto loginRequestDto) {
+    public User login(LoginRequestDto loginRequestDto) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequestDto.getUsername());
 
         if (userDetails == null) {
@@ -60,9 +60,20 @@ public class AuthenticationServiceImpl implements com.intellisoft.llm.service.Au
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 userDetails, loginRequestDto.getPassword(), userDetails.getAuthorities()
         );
-//        authenticationManager.authenticate(authenticationToken);
 
-        return jwtService.generateToken(authenticationToken);
+        String token = jwtService.generateToken(authenticationToken);
+
+        if (token.isEmpty()) {
+            throw new RuntimeException("Token generation failed");
+        }
+
+        Optional<User> optionalUser = userRepository.findByUsername(loginRequestDto.getUsername());
+
+        User foundUser = optionalUser.orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        foundUser.setToken(token);
+
+        return foundUser;
     }
 
     @Override
@@ -120,7 +131,7 @@ public class AuthenticationServiceImpl implements com.intellisoft.llm.service.Au
     public User updateProfile(ProfileUpdateRequestDto profileUpdateRequestDto) {
         Optional<User> user = userRepository.findByContact(profileUpdateRequestDto.getPhoneNumber());
 
-        if (user.isEmpty()){
+        if (user.isEmpty()) {
             throw new UsernameNotFoundException("User not found");
         }
 
