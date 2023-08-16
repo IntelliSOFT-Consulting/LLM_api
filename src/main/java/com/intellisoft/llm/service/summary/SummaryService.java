@@ -5,28 +5,37 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 @Service
 public class SummaryService {
-    Logger ncdMetaDataLogger = LoggerFactory.getLogger("ncdMetaData");
+    private static final String CSV_FILE_PATH = "summaries/meta_data.csv";
 
     public void logMetaData(NcdMetaData ncdMetaData) {
-        String logEntry = String.format("%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s",
-                LocalDateTime.now(),
-                "MetaData id", ncdMetaData.getId(),
-                "searchSubject", ncdMetaData.getSearchSubject(),
-                "Observed Time Of Start Use", ncdMetaData.getObservedTimeStartUse(),
-                "Observed Time Last Use", ncdMetaData.getObservedTimeLastUse(),
-                "Duration Of Engagement", ncdMetaData.getDurationOfEngagement(),
-                "Ncd User Most Interested In", ncdMetaData.getNcdUserMostInterestedIn(),
-                "User Contact", ncdMetaData.getPhoneNumber());
+        try (FileWriter csvWriter = new FileWriter(CSV_FILE_PATH, true)) {
+            File file = new File(CSV_FILE_PATH);
 
-        ncdMetaDataLogger.info(logEntry);
+            // Check if the file is empty or doesn't exist, and add column labels if necessary
+            if (file.length() == 0) {
+                csvWriter.append("ID,PhoneNumber,SearchSubject,ObservedTimeStartUse,ObservedTimeLastUse,DurationOfEngagement,NcdUserMostInterestedIn\n");
+            }
+
+            // Build the CSV row string
+            String csvRow = String.format("%s,%s,%s,%s,%s,%s,%s",
+                    ncdMetaData.getId(), ncdMetaData.getPhoneNumber(), ncdMetaData.getSearchSubject(),
+                    ncdMetaData.getObservedTimeStartUse(), ncdMetaData.getObservedTimeLastUse(),
+                    ncdMetaData.getDurationOfEngagementCsv(), ncdMetaData.getNcdUserMostInterestedIn());
+
+            // Write the CSV row to the file
+            csvWriter.append(csvRow).append("\n");
+
+            // Flush and close the writer
+            csvWriter.flush();
+        } catch (IOException e) {
+            // Handle exceptions
+            e.printStackTrace();
+        }
     }
-
-
 }
-
