@@ -8,6 +8,7 @@ on:
     branches:
       - main
       - david-njau-patch
+      - dev/nelson
 
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
