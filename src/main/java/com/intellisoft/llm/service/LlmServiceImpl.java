@@ -3,6 +3,7 @@ package com.intellisoft.llm.service;
 
 import com.intellisoft.llm.bard.BardApiResponseDto;
 import com.intellisoft.llm.bard.BardRequestDto;
+import com.intellisoft.llm.gpt.request.Message;
 import com.intellisoft.llm.gpt.request.UpdateMetaDataDto;
 import com.intellisoft.llm.gpt.request.GptRequestDto;
 import com.intellisoft.llm.gpt.request.ChatGptRequest;
@@ -24,6 +25,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -43,11 +46,23 @@ public class LlmServiceImpl implements LlmService {
 
     public GptResponseDto askChatGpt(GptRequestDto gptRequestDto) {
 
+        // extract raw searched Question::
+
+        String extractedContents = "";
+
+        List<Message> messages = gptRequestDto.getMessages();
+
+        for (Message message : messages) {
+            extractedContents += message.getContent() + "\n";
+        }
+
         // store metadata from user:
+
         NcdMetaData ncdMetaData = new NcdMetaData();
 
         ncdMetaData.setPhoneNumber(gptRequestDto.getPhoneNumber());
         ncdMetaData.setSearchSubject(gptRequestDto.getSearchSubject());
+        ncdMetaData.setContentSearched(extractedContents);
 
         ncdMetaDataRepository.save(ncdMetaData);
 
@@ -127,6 +142,7 @@ public class LlmServiceImpl implements LlmService {
         summaryData.setObservedTimeLastUse(updateMetaDataDto.getObservedTimeLastUse());
         summaryData.setDurationOfEngagementCsv(totalDurationString);
         summaryData.setNcdUserMostInterestedIn(String.valueOf(ncdUserMostInterestedIn));
+        summaryData.setContentSearched(foundMetaData.getContentSearched());
 
         summaryService.logMetaData(summaryData);
 
