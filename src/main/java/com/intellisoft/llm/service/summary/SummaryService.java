@@ -19,14 +19,14 @@ public class SummaryService {
 
             // Check if the file is empty or doesn't exist, and add column labels if necessary
             if (file.length() == 0) {
-                csvWriter.append("ID,PhoneNumber,SearchSubject,ObservedTimeStartUse,ObservedTimeLastUse,DurationOfEngagement,NcdUserMostInterestedIn\n");
+                csvWriter.append("ID,PhoneNumber,SearchSubject,ObservedTimeStartUse,ObservedTimeLastUse,DurationOfEngagement,NcdUserMostInterestedIn,contentSearched\n");
             }
 
             // Build the CSV row string
-            String csvRow = String.format("%s,%s,%s,%s,%s,%s,%s",
+            String csvRow = String.format("%s,%s,%s,%s,%s,%s,%s,,%s",
                     ncdMetaData.getId(), ncdMetaData.getPhoneNumber(), ncdMetaData.getSearchSubject(),
                     ncdMetaData.getObservedTimeStartUse(), ncdMetaData.getObservedTimeLastUse(),
-                    ncdMetaData.getDurationOfEngagementCsv(), ncdMetaData.getNcdUserMostInterestedIn());
+                    ncdMetaData.getDurationOfEngagementCsv(), ncdMetaData.getNcdUserMostInterestedIn(), ncdMetaData.getContentSearched());
 
             // Write the CSV row to the file
             csvWriter.append(csvRow).append("\n");

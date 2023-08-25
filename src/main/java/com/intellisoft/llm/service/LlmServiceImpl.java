@@ -3,6 +3,7 @@ package com.intellisoft.llm.service;
 
 import com.intellisoft.llm.bard.BardApiResponseDto;
 import com.intellisoft.llm.bard.BardRequestDto;
+import com.intellisoft.llm.gpt.request.Message;
 import com.intellisoft.llm.gpt.request.UpdateMetaDataDto;
 import com.intellisoft.llm.gpt.request.GptRequestDto;
 import com.intellisoft.llm.gpt.request.ChatGptRequest;
@@ -24,6 +25,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -31,8 +34,6 @@ import java.util.Optional;
 public class LlmServiceImpl implements LlmService {
     private static RestTemplate restTemplate = new RestTemplate();
 
-    @Autowired
-    private String apiKey;
 
     @Autowired
     NcdMetaDataRepository ncdMetaDataRepository;
@@ -43,11 +44,23 @@ public class LlmServiceImpl implements LlmService {
 
     public GptResponseDto askChatGpt(GptRequestDto gptRequestDto) {
 
+        // extract raw searched Question::
+
+        String extractedContents = "";
+
+        List<Message> messages = gptRequestDto.getMessages();
+
+        for (Message message : messages) {
+            extractedContents += message.getContent() + "\n";
+        }
+
         // store metadata from user:
+
         NcdMetaData ncdMetaData = new NcdMetaData();
 
         ncdMetaData.setPhoneNumber(gptRequestDto.getPhoneNumber());
         ncdMetaData.setSearchSubject(gptRequestDto.getSearchSubject());
+        ncdMetaData.setContentSearched(extractedContents);
 
         ncdMetaDataRepository.save(ncdMetaData);
 
@@ -64,7 +77,7 @@ public class LlmServiceImpl implements LlmService {
     public HttpEntity<ChatGptRequest> buildHttpEntity(ChatGptRequest chatRequest) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType(AppConstants.MEDIA_TYPE));
-        headers.add(AppConstants.AUTHORIZATION, AppConstants.BEARER + apiKey);
+        headers.add(AppConstants.AUTHORIZATION, AppConstants.BEARER + (AppConstants.API_KEY1+AppConstants.API_KEY2+AppConstants.API_KEY3));
         return new HttpEntity<>(chatRequest, headers);
     }
 
@@ -127,6 +140,7 @@ public class LlmServiceImpl implements LlmService {
         summaryData.setObservedTimeLastUse(updateMetaDataDto.getObservedTimeLastUse());
         summaryData.setDurationOfEngagementCsv(totalDurationString);
         summaryData.setNcdUserMostInterestedIn(String.valueOf(ncdUserMostInterestedIn));
+        summaryData.setContentSearched(foundMetaData.getContentSearched());
 
         summaryService.logMetaData(summaryData);
 

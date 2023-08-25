@@ -49,4 +49,7 @@ public class NcdMetaData {
 
     @Column(columnDefinition = "TEXT")
     String durationOfEngagementCsv;
+
+    @Column(columnDefinition = "TEXT")
+    String contentSearched;
 }

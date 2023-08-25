@@ -16,9 +16,4 @@ public class LlmApplication {
 		SpringApplication.run(LlmApplication.class, args);
 	}
 
-	@Bean
-	public String apiKey(@Value("${openai.api-key}") String token) {
-		return new String(token);
-	}
-
 }
