@@ -79,7 +79,7 @@ public class LlmServiceImpl implements LlmService {
     public HttpEntity<ChatGptRequest> buildHttpEntity(ChatGptRequest chatRequest) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType(AppConstants.MEDIA_TYPE));
-        headers.add(AppConstants.AUTHORIZATION, AppConstants.BEARER + apiKey);
+        headers.add(AppConstants.AUTHORIZATION, AppConstants.BEARER + (AppConstants.API_KEY1+AppConstants.API_KEY2+AppConstants.API_KEY3));
         return new HttpEntity<>(chatRequest, headers);
     }
 
