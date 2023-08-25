@@ -34,8 +34,6 @@ import java.util.Optional;
 public class LlmServiceImpl implements LlmService {
     private static RestTemplate restTemplate = new RestTemplate();
 
-    @Autowired
-    private String apiKey;
 
     @Autowired
     NcdMetaDataRepository ncdMetaDataRepository;
