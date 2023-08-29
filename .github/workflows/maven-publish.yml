@@ -51,7 +51,7 @@ jobs:
         with:
           ssh-private-key: ${{ env.SSH_PASS }}
 
-      - name: Remote ssh to server and update international instance
+      - name: Remote ssh to server and update LLM API server
         uses: appleboy/ssh-action@master
         with:
           host: ${{ env.SSH_HOST }}

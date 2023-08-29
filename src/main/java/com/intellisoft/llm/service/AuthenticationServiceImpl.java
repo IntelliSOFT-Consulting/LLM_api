@@ -91,7 +91,7 @@ public class AuthenticationServiceImpl implements com.intellisoft.llm.service.Au
 
         User user = User.builder()
                 .uniqueId(registerRequestDto.getUniqueID())
-                .age(registerRequestDto.getAge())
+                .dob(registerRequestDto.getDob())
                 .gender(registerRequestDto.getGender())
                 .contact(registerRequestDto.getPhoneNumber())
                 .heardAppFrom(registerRequestDto.getHeardAppFrom())
@@ -137,7 +137,7 @@ public class AuthenticationServiceImpl implements com.intellisoft.llm.service.Au
 
         User foundUser = user.get();
 
-        foundUser.setAge(profileUpdateRequestDto.getAge());
+        foundUser.setDob(profileUpdateRequestDto.getDob());
         foundUser.setGender(profileUpdateRequestDto.getGender());
         foundUser.setContact(profileUpdateRequestDto.getContact());
         foundUser.setHeardAppFrom(profileUpdateRequestDto.getHeardAppFrom());

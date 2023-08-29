@@ -11,6 +11,7 @@ import com.intellisoft.llm.gpt.response.GptResponseDto;
 import com.intellisoft.llm.model.NcdMetaData;
 import com.intellisoft.llm.model.User;
 import com.intellisoft.llm.repository.NcdMetaDataRepository;
+import com.intellisoft.llm.repository.UserRepository;
 import com.intellisoft.llm.service.summary.SummaryService;
 import com.intellisoft.llm.util.AppConstants;
 import com.intellisoft.llm.util.ResourceNotFoundException;
@@ -39,6 +40,9 @@ public class LlmServiceImpl implements LlmService {
     NcdMetaDataRepository ncdMetaDataRepository;
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     SummaryService summaryService;
 
 
@@ -54,13 +58,26 @@ public class LlmServiceImpl implements LlmService {
             extractedContents += message.getContent() + "\n";
         }
 
-        // store metadata from user:
+        // get uniqueId using phoneNumber from Dto:
+        Optional<User> user = userRepository.findByContact(gptRequestDto.getPhoneNumber());
 
+        if (user.isEmpty()) {
+            throw new ResourceNotFoundException("User info not found with phone number: " + gptRequestDto.getPhoneNumber());
+        }
+        User foundUser = user.get();
+
+        // store metadata from user:
         NcdMetaData ncdMetaData = new NcdMetaData();
 
+        ncdMetaData.setUniqueID(foundUser.getUniqueId());
         ncdMetaData.setPhoneNumber(gptRequestDto.getPhoneNumber());
         ncdMetaData.setSearchSubject(gptRequestDto.getSearchSubject());
         ncdMetaData.setContentSearched(extractedContents);
+        ncdMetaData.setDob(foundUser.getDob());
+        ncdMetaData.setGender(foundUser.getGender());
+        ncdMetaData.setHeardAppFrom(foundUser.getHeardAppFrom());
+        ncdMetaData.setLocation(foundUser.getLocation());
+        ncdMetaData.setLocation(foundUser.getSpecificLocation());
 
         ncdMetaDataRepository.save(ncdMetaData);
 
@@ -134,13 +151,19 @@ public class LlmServiceImpl implements LlmService {
         NcdMetaData summaryData = new NcdMetaData();
 
         summaryData.setId(foundMetaData.getId());
+        summaryData.setUniqueID(foundMetaData.getUniqueID());
         summaryData.setPhoneNumber(foundMetaData.getPhoneNumber());
+        summaryData.setDob(foundMetaData.getDob());
+        summaryData.setGender(foundMetaData.getGender());
+        summaryData.setHeardAppFrom(foundMetaData.getHeardAppFrom());
+        summaryData.setLocation(foundMetaData.getLocation());
+        summaryData.setSpecificLocation(foundMetaData.getSpecificLocation());
         summaryData.setSearchSubject(foundMetaData.getSearchSubject());
+        summaryData.setNcdUserMostInterestedIn(String.valueOf(ncdUserMostInterestedIn));
+        summaryData.setContentSearched(foundMetaData.getContentSearched().trim());
         summaryData.setObservedTimeStartUse(updateMetaDataDto.getObservedTimeStartUse());
         summaryData.setObservedTimeLastUse(updateMetaDataDto.getObservedTimeLastUse());
         summaryData.setDurationOfEngagementCsv(totalDurationString);
-        summaryData.setNcdUserMostInterestedIn(String.valueOf(ncdUserMostInterestedIn));
-        summaryData.setContentSearched(foundMetaData.getContentSearched());
 
         summaryService.logMetaData(summaryData);
 
