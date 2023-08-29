@@ -11,6 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,6 +23,9 @@ public class NcdMetaData {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Integer id;
+
+    @Column(columnDefinition = "TEXT")
+    String uniqueID;
 
     @Column(columnDefinition = "TEXT")
     String phoneNumber;
@@ -52,4 +56,21 @@ public class NcdMetaData {
 
     @Column(columnDefinition = "TEXT")
     String contentSearched;
+
+    @Temporal(TemporalType.DATE)
+    @Column(columnDefinition = "DATE")
+    Date dob;
+
+    @Column(columnDefinition = "TEXT")
+    String gender;
+
+    @Column(columnDefinition = "TEXT")
+    String location;
+
+    @Column(columnDefinition = "TEXT")
+    String specificLocation;
+
+    @Column(columnDefinition = "TEXT")
+    String heardAppFrom;
+
 }

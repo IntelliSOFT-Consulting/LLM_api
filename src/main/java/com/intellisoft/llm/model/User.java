@@ -31,8 +31,9 @@ public class User implements UserDetails {
     @Column(columnDefinition = "TEXT")
     String uniqueId;
 
-    @Column(columnDefinition = "TEXT")
-    Integer age;
+    @Temporal(TemporalType.DATE)
+    @Column(columnDefinition = "DATE")
+    Date dob;
 
     @Column(columnDefinition = "TEXT")
     String gender;

@@ -19,14 +19,25 @@ public class SummaryService {
 
             // Check if the file is empty or doesn't exist, and add column labels if necessary
             if (file.length() == 0) {
-                csvWriter.append("ID,PhoneNumber,SearchSubject,ObservedTimeStartUse,ObservedTimeLastUse,DurationOfEngagement,NcdUserMostInterestedIn,contentSearched\n");
+                csvWriter.append("ID,UniqueID,PhoneNumber,DOB,Gender,HeardAppFrom,Location,SpecificLocation,SearchSubject,NcdUserMostInterestedIn,ContentSearched,ObservedTimeStartUse,ObservedTimeLastUse,DurationOfEngagementCsv\n");
             }
 
             // Build the CSV row string
-            String csvRow = String.format("%s,%s,%s,%s,%s,%s,%s,,%s",
-                    ncdMetaData.getId(), ncdMetaData.getPhoneNumber(), ncdMetaData.getSearchSubject(),
-                    ncdMetaData.getObservedTimeStartUse(), ncdMetaData.getObservedTimeLastUse(),
-                    ncdMetaData.getDurationOfEngagementCsv(), ncdMetaData.getNcdUserMostInterestedIn(), ncdMetaData.getContentSearched());
+            String csvRow = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+                    ncdMetaData.getId(),
+                    ncdMetaData.getUniqueID(),
+                    ncdMetaData.getPhoneNumber(),
+                    ncdMetaData.getDob(),
+                    ncdMetaData.getGender(),
+                    ncdMetaData.getHeardAppFrom(),
+                    ncdMetaData.getLocation(),
+                    ncdMetaData.getSpecificLocation(),
+                    ncdMetaData.getSearchSubject(),
+                    ncdMetaData.getNcdUserMostInterestedIn(),
+                    ncdMetaData.getContentSearched(),
+                    ncdMetaData.getObservedTimeStartUse(),
+                    ncdMetaData.getObservedTimeLastUse(),
+                    ncdMetaData.getDurationOfEngagementCsv());
 
             // Write the CSV row to the file
             csvWriter.append(csvRow).append("\n");

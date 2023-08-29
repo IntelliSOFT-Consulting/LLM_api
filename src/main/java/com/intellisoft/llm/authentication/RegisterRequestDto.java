@@ -20,7 +20,8 @@ import java.util.List;
 public class RegisterRequestDto {
 
     private String uniqueID;
-    private Integer age;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date dob;
     private String gender;
     private String phoneNumber;
     private String location;

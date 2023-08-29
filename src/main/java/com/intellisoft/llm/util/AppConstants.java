@@ -8,8 +8,6 @@ public class AppConstants {
 
     public static final String AUTHORIZATION = "Authorization";
     public static final String BEARER = "Bearer ";
-    public static final String API_KEY = System.getenv("openai.api-key");
-
     public static final String API_KEY1 = "sk-";
     public static final String API_KEY2 = "pKxuBNX799zMHutazyL5T";
     public static final String API_KEY3 = "3BlbkFJflNGzEdU8V9LXFcOh6qg";
