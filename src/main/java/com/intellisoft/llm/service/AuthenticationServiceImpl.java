@@ -98,6 +98,8 @@ public class AuthenticationServiceImpl implements com.intellisoft.llm.service.Au
                 .username(registerRequestDto.getUsername())
                 .password(passwordEncoder.encode(registerRequestDto.getPassword()))
                 .roles(roles)
+                .location(registerRequestDto.getLocation())
+                .specificLocation(registerRequestDto.getSpecificLocation())
                 .build();
 
         userRepository.save(user);
