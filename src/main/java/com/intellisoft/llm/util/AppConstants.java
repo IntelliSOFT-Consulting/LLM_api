@@ -8,10 +8,10 @@ public class AppConstants {
 
     public static final String AUTHORIZATION = "Authorization";
     public static final String BEARER = "Bearer ";
-    public static final String API_KEY1 = "sk-";
-    public static final String API_KEY2 = "ASMuM2iFxws7kDKHdHyzT3";
-    public static final String API_KEY3 = "BlbkFJCZy5mmucccsp1TyUcKsC";
-    public static final String MODEL = "gpt-3.5-turbo";
+    public static final String API_KEY1 = "sk-proj-";
+    public static final String API_KEY2 = "S6eqzcCezj659dMRPOpAT3";
+    public static final String API_KEY3 = "BlbkFJcdAPOUWoiv0IJh4qTh09";
+    public static final String MODEL = "gpt-4o";
     public static final Integer MAX_TOKEN = 300;
     public static final Double TEMPERATURE = 0.0;
     public static final Double TOP_P = 1.0;
